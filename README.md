@@ -1,2 +1,5 @@
 # alx-backend-python
-This is a repository about python as a backend
+
+# Python as a Backend
+
+This repository is dedicated to exploring the use of Python as a backend language.
