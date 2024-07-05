@@ -6,10 +6,10 @@ contains a string and its corresponding length.
 """
 
 
-from typing import List, Tuple
+from typing import List, Tuple, Sequence, Iterable
 
 
-def element_length(lst: List[str]) -> List[Tuple[str, int]]:
+def element_length(lst: Iterable[Sequence]) -> List[Tuple[Sequence, int]]:
     """
     This function takes a list lst of strings as argument and returns a list of
     tuples where each tuple contains a string and its corresponding length.
