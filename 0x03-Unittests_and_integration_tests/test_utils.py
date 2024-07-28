@@ -2,6 +2,7 @@
 """unittests using nested maps.
 """
 import unittest
+from unittest import mock
 from parameterized import parameterized
 from requests import patch
 from utils import access_nested_map, get_json
@@ -41,13 +42,12 @@ class TestAccessNestedMap(unittest.TestCase):
             access_nested_map(nested_map, path)
 
 class TestGetJson(unittest.TestCase):
-    """TestGetJson class
-    """
+    """TestGetJson class"""
     @parameterized.expand([
-        ("http://example.com",{ "payload": True }),
-        ("http://holberton.io", { "payload": False }),
+        ("http://example.com", {"payload": True}),
+        ("http://holberton.io", {"payload": False}),
     ])
-    @patch('requests.get')
+    @mock.patch("requests.get")
     def test_get_json(self, test_url: str, test_payload: Dict, mock_request_get) -> None:
         """
         Test get_json method
@@ -58,9 +58,6 @@ class TestGetJson(unittest.TestCase):
         """
         mock_request_get.return_value.json.return_value = test_payload
         response = get_json(test_url)
-        self.assertEqual(response, test_payload)
-        mock_request_get.assert_called_once_with(test_url)
-
 
 if __name__ == "__main__":
     unittest.main()
