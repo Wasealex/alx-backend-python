@@ -5,6 +5,7 @@ import unittest
 from unittest import TestCase, mock
 from parameterized import parameterized
 from requests import patch
+from unittest.mock import patch
 from utils import access_nested_map, get_json, memoize
 from typing import Dict, Mapping, Sequence
 
@@ -17,7 +18,11 @@ class TestAccessNestedMap(unittest.TestCase):
         ({"a": {"b": 2}}, ("a",), {"b": 2}),
         ({"a": {"b": 2}}, ("a", "b"), 2)
     ])
-    def test_access_nested_map(self, nested_map: Mapping, path: Sequence, expected: int) -> None:
+    def test_access_nested_map(
+        self, 
+        nested_map: Mapping, 
+        path: Sequence, 
+        expected: int) -> None:
         """Test access_nested_map method
         Args:
             nested_map (Mapping): A nested map
@@ -66,18 +71,21 @@ class TestMemoize(unittest.TestCase):
     def test_memoize(self)  -> None:
         """Test memoize method"""
         class TestClass:
-
+            """TestClass class for testing memoize method
+            """
             def a_method(self):
+                """a_method method"""
                 return 42
 
-        @memoize
-        def a_property(self):
-            return self.a_method()
-        with patch.object(TestClass, "a_method") as mock_method:
+            @memoize
+            def a_property(self):
+                """a_property method"""
+                return self.a_method()
+        with patch.object(TestClass, "a_method") as mock_object:
             test = TestClass()
             test.a_property()
             test.a_property()
-            mock_method.assert_called_once()
+            mock_object.assert_called_once()
 
 
 if __name__ == "__main__":
