@@ -69,17 +69,27 @@ class TestGetJson(unittest.TestCase):
 class TestMemoize(unittest.TestCase):
     """test memoize class"""
     def test_memoize(self)  -> None:
-        """Test memoize method"""
+        """Test memoize method
+        that has a method and a property and
+        checks if the method is called once
+        by using the property twice to get the value
+        """
         class TestClass:
             """TestClass class for testing memoize method
             """
             def a_method(self):
-                """a_method method"""
+                """a_method method used by a_property method
+                to get the value of the property and cache it
+                by using the memoize decorator
+                """
                 return 42
 
             @memoize
             def a_property(self):
-                """a_property method"""
+                """a_property method that uses a_method method
+                to get the value of the property and cache it
+                by using the memoize decorator and return it
+                """
                 return self.a_method()
         with patch.object(TestClass, "a_method") as mock_object:
             test = TestClass()
