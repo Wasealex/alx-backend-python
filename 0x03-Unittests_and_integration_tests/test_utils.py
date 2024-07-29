@@ -61,5 +61,9 @@ class TestGetJson(unittest.TestCase):
         self.assertEqual(response, test_payload)
         mock_request_get.assert_called_with(test_url)
 
+class TestMemoize(unittest.TestCase):
+    pass
+
+
 if __name__ == "__main__":
     unittest.main()
