@@ -45,7 +45,25 @@ class TestGithubOrgClient(unittest.TestCase):
                 GithubOrgClient("google")._public_repos_url,
                 "https://api.github.com/users/google/repos",
             )
-
+    @patch('client.get_json')
+    def test_public_repos(self, mock_function: MagicMock) -> None:
+        """Test public_repos method of GithubOrgClient
+        Args:
+            mock_function (MagicMock): mock function
+        """
+        mock_function.return_value = [
+            {"name": "google"},
+            {"name": "abc"},
+        ]
+        with patch(
+            "client.GithubOrgClient._public_repos_url",
+            new_callable=PropertyMock,
+        ) as mock_public_repos_url:
+            mock_public_repos_url.return_value = "https://api.github.com/users/google/repos"
+            client = GithubOrgClient("google")
+            response = client.public_repos()
+            self.assertEqual(response, ["google", "abc"])
+            mock_function.assert_called_once_with("https://api.github.com/users/google/repos")
 
 if __name__ == '__main__':
     unittest.main()
