@@ -68,6 +68,16 @@ class TestGithubOrgClient(unittest.TestCase):
             self.assertEqual(response, ["google", "abc"])
             mock_function.assert_called_once_with(url_test)
 
+    @parameterized.expand([
+        ({'license': {'key': "bsd-3-clause"}}, "bsd-3-clause", True),
+        ({'license': {'key': "bsl-1.0"}}, "bsd-3-clause", False),
+    ])
+    def test_has_license(self, repo: Dict, key: str, expected: bool) -> None:
+        """Tests the `has_license` method."""
+        gh_org_client = GithubOrgClient("google")
+        client_has_licence = gh_org_client.has_license(repo, key)
+        self.assertEqual(client_has_licence, expected)
+
 
 if __name__ == '__main__':
     unittest.main()
