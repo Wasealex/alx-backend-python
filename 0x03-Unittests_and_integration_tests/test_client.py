@@ -4,7 +4,7 @@
 
 from typing import Dict
 import unittest
-from unittest.mock import MagicMock, patch
+from unittest.mock import MagicMock, PropertyMock, patch
 from parameterized import parameterized
 from client import GithubOrgClient
 
@@ -31,6 +31,19 @@ class TestGithubOrgClient(unittest.TestCase):
         client.org()
         mock_function.assert_called_once_with(
             f"https://api.github.com/orgs/{org_name}"
+            )
+    def test_public_repos_url(self) -> None:
+        """method to unit-test GithubOrgClient._public_repos_url"""
+        with patch(
+            "client.GithubOrgClient.org",
+            new_callable=PropertyMock,
+        ) as mock_org:
+            mock_org.return_value = {
+                'repos_url': "https://api.github.com/users/google/repos",
+            }
+            self.assertEqual(
+                GithubOrgClient("google")._public_repos_url,
+                "https://api.github.com/users/google/repos",
             )
 
 
